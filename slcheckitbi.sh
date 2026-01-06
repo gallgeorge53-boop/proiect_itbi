@@ -9,11 +9,17 @@ fi
 
 parcurgere_directoare() {
 director_curent="$1"
-for obiect in "director_curent"/*; do
+for obiect in "$director_curent"/*; do
   [ -e "$obiect" ] || continue 
+   if [ -L "$obiect" ]; then
+	if [ ! -e "$obiect" ]; then
+		echo " $obiect  este un broken link"
+	fi
+   fi
 
-  if  [-d "$obiect" ]; then
+  elif  [-d "$obiect" ]; then
      parcurgere_directoare "$obiect"
   fi
 done
 }
+parcurgere_directoare "$director"
